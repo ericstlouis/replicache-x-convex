@@ -7,18 +7,28 @@ import { rep } from './layout';
 import { useSubscribe } from 'replicache-react';
 import { TaskType, listTodos } from './mutators';
 
+
 export default function Home() {
   const handleText = (text: string) => {
-    if (rep && rep.mutate && rep.mutate.createTodo) {
-      rep.mutate.createTodo({ id: nanoid(), text, completed: false });
+    if (rep && rep.mutate && rep.mutate.createTask) {
+      rep.mutate.createTask({ id: nanoid(), text, completed: false });
     }
   };
 
   const listOfTasks = useSubscribe(rep, listTodos);
 
-  console.log(listOfTasks);
-  console.log(rep);
-
+  // Transform the data into the structure we expect
+ const transformedData: TaskType[] = listOfTasks
+   ? listOfTasks.map(([k, v]) => {
+       // Deconstruct the V object
+       const { id, text, completed = false } = v as unknown as TaskType;
+       return {
+         id: k,
+         text: text, // Now safely deconstructed
+         completed: completed, // Default to false if undefined
+       };
+     })
+   : [];
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-12">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
@@ -39,17 +49,12 @@ export default function Home() {
         {/* main Content */}
         <div className="p-14">
           <TodoInput handleText={handleText} />
-          {/* {listOfTasks && (
-            <TodoTaskList
-              Tasks={listOfTasks.map(([key, value]) => [
-                key,
-                value as TaskType,
-              ])}
-            />
-          )} */}
+          {listOfTasks && <TodoTaskList tasks={transformedData || []} />}
         </div>
       </div>
     </main>
   );
 }
+
+
 
