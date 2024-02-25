@@ -33,7 +33,6 @@ export function createReplicacheClient(convex: ConvexClient) {
   }
 }
 
-export { createReplicacheClient as GET, createReplicacheClient as POST };
 
 
 
