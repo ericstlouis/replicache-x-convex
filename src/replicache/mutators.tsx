@@ -1,7 +1,6 @@
 import {
   WriteTransaction,
   ReadTransaction,
-  ReadonlyJSONObject,
 } from 'replicache';
 
 export interface TaskType {
@@ -21,6 +20,9 @@ export async function listTodos(tx: ReadTransaction) {
   return await tx.scan({ prefix: 'task/' }).entries().toArray();
 }
 
+export type M = typeof mutators;
+
+
 export const mutators = {
   deleteTodo: async (tx: WriteTransaction, id: string): Promise<void> => {
     await tx.del(id);
@@ -30,7 +32,7 @@ export const mutators = {
     await tx.set(`task/${id}`, { text, completed });
   },
   updateTodo: async (tx: WriteTransaction, task: TodoUpdate): Promise<void> => {
-    const { id, text, completed } = task;
+    const { id } = task;
     const existing = await tx.get(id);
     if (!existing) {
       throw new Error(`Task ${id} does not exist`);
@@ -43,4 +45,5 @@ export const mutators = {
     await tx.set(updatedTask.id, { text: updatedTask.text, completed: updatedTask.completed});
   },
 };
+
 

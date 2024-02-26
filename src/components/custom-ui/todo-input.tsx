@@ -1,14 +1,13 @@
-'use client'
+'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { createReplicacheClient } from '@/app/replicacheConstructer';
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import {  useState } from 'react';
 
 interface TodoInputProps {
   handleText: (text: string, rep?: any) => void;
 }
 
-export function TodoInput({handleText}: TodoInputProps) {
+export function TodoInput({ handleText }: TodoInputProps) {
   const [task, setTask] = useState('');
 
   const handleSubmit = async (e: any) => {

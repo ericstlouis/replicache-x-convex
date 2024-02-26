@@ -8,7 +8,6 @@ import {
 import { ConvexClient } from 'convex/browser';
 import { api } from '../../convex/_generated/api';
 
-
 export class ConvexReplicacheClient {
   constructor(private convex: ConvexClient) {}
 
@@ -46,14 +45,13 @@ export class ConvexReplicacheClient {
         httpStatusCode: 200,
         errorMessage: '',
       },
-    //   response,
+      //   response,
     };
   }
 
-//   subscribe(replicache: Replicache) {
-//     return this.convex.onUpdate(api.pull.currentServerVersion, {}, () => {
-//       replicache.pull();
-//     });
-//   }
-
+  //   subscribe(replicache: Replicache) {
+  //     return this.convex.onUpdate(api.pull.currentServerVersion, {}, () => {
+  //       replicache.pull();
+  //     });
+  //   }
 }

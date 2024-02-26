@@ -1,6 +1,6 @@
 import { Infer, v } from 'convex/values';
 import { MutationCtx, mutation } from './_generated/server';
-import { TaskType } from '@/app/mutators';
+import { TaskType } from '@/replicache/mutators';
 import { defaultServerID } from './constants';
 
 export const mutationValidator = v.object({
