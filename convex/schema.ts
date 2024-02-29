@@ -4,7 +4,7 @@ import { v } from 'convex/values';
 export default defineSchema({
   task: defineTable({
     localId: v.string(),
-    userId: v.optional(v.string()),
+    userId: v.string(),
     // sender: v.string(),
     taskText: v.string(),
     completed: v.boolean(),
@@ -13,7 +13,7 @@ export default defineSchema({
     version: v.number(),
   })
     .index('by_local_id', ['localId'])
-    .index('by_user_id', ['userId', 'version'])
+    .index('by_user_id', ['userId'])
     .index('by_version', ['version']),
 
   replicacheClient: defineTable({

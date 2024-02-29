@@ -151,6 +151,8 @@ async function deleteTask(ctx: MutationCtx, task: string) {
   if (!id) {
     throw new Error(`Task ${task} not found`);
   }
+  // await ctx.db.patch(id._id, { deleted: true });
+  //deleted on database but the client for some reason
   await ctx.db.delete(id._id);
 }
 

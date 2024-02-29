@@ -30,8 +30,8 @@ export const mutators = {
   },
   createTask: async (tx: WriteTransaction, task: TaskType): Promise<void> => {
     console.log('task from the mutators: ', task);
-    const { id, taskText, completed } = task;
-    await tx.set(id, { taskText, completed });
+    const { id, userId, taskText, completed } = task;
+    await tx.set(id, { taskText, userId, completed });
   },
   updateTodo: async (tx: WriteTransaction, task: TodoUpdate): Promise<void> => {
     const { id } = task;

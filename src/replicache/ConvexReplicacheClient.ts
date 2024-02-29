@@ -43,7 +43,7 @@ export class ConvexReplicacheClient {
     requestID: string,
     userId: string
   ): Promise<PullerResult> {
-    // console.log(this.convex, 'pull', requestBody, requestID, userId);
+    console.log(this.convex, 'pull', requestBody, requestID, userId);
     if (requestBody.cookie !== null && typeof requestBody.cookie !== 'number') {
       throw new Error(`Invalid cookie: ${requestBody.cookie}`);
     }
