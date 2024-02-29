@@ -1,29 +1,39 @@
 'use client';
 import { ModeToggle } from '@/components/toggle';
 import { TodoInput } from '@/components/custom-ui/todo-input';
-// import { TodoTaskList } from '@/components/custom-ui/todo-list';
+import { TodoTaskList } from '@/components/custom-ui/todo-list';
 import { nanoid } from 'nanoid';
 import { useSubscribe } from 'replicache-react';
 import { M, TaskType, listTodos } from '@/replicache/mutators';
-import { Replicache } from 'replicache';
+import { useStore } from '@/lib/repStore';
 
-export default function MainApp({rep}: {rep: Replicache<M>}) {
-  const handleText = (text: string) => {
+export default function MainApp() {
+  // Get the Replicache instance from the context
+  const {rep, userId} = useStore()
+
+  const handleText = (taskText: string) => {
     if (rep && rep.mutate && rep.mutate.createTask) {
-      rep.mutate.createTask({ id: nanoid(), text, completed: false });
+      rep.mutate.createTask({
+        id: `task/${nanoid()}`,
+        userId: userId,
+        taskText,
+        completed: false,
+      });
     }
   };
 
   const listOfTasks = useSubscribe(rep, listTodos);
+  console.log(listOfTasks);
 
   // Transform the data into the structure we expect
   const transformedData: TaskType[] = listOfTasks
     ? listOfTasks.map(([k, v]) => {
         // Deconstruct the V object
-        const { id, text, completed = false } = v as unknown as TaskType;
+        const { id, userId, taskText, completed = false } = v as unknown as TaskType;
         return {
           id: k,
-          text: text, // Now safely deconstructed
+          userId: userId,
+          taskText: taskText, // Now safely deconstructed
           completed: completed, // Default to false if undefined
         };
       })
@@ -52,10 +62,15 @@ export default function MainApp({rep}: {rep: Replicache<M>}) {
         {/* main Content */}
         <div className="p-14">
           <TodoInput handleText={handleText} />
-          {/* {listOfTasks && <TodoTaskList tasks={transformedData || []} />} */}
+          {listOfTasks && <TodoTaskList tasks={transformedData || []} />}
         </div>
       </div>
     </main>
   );
 }
+
+
+
+
+
 

@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import {  useState } from 'react';
 
 interface TodoInputProps {
-  handleText: (text: string, rep?: any) => void;
+  handleText: (taskText: string, rep?: any) => void;
 }
 
 export function TodoInput({ handleText }: TodoInputProps) {
@@ -33,4 +33,5 @@ export function TodoInput({ handleText }: TodoInputProps) {
     </div>
   );
 }
+
 

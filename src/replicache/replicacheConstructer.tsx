@@ -11,25 +11,23 @@ declare global {
   }
 }
 
-export function createReplicacheClient(convex: ConvexClient) {
+export function createReplicacheClient(convex: ConvexClient, userId: string) {
   const convexBridge = new ConvexReplicacheClient(convex);
-  // if (typeof navigator !== 'undefined') {
-  console.log('This is Replicache Client speaking!!!');
+  console.log('This is Replicache Client speaking!!!: ', userId);
   const rep = new Replicache({
     name: 'replicache-convex',
     licenseKey: process.env.NEXT_PUBLIC_LICENSE_KEY as string,
     mutators,
     pusher: (body, id) => convexBridge.replicachePush(body as any, id),
-    // puller: (body, id) => convexBridge.replicachePull(body as any, id),
+    // puller: (body, id) => convexBridge.replicachePull(body as any, id, userId),
   });
-  // const unsubscribe = convexBridge.subscribe(rep);
+  const unsubscribe = convexBridge.subscribe(rep);
   if (import.meta.hot) {
     import.meta.hot.dispose(() => {
       rep.close();
-      // unsubscribe();
+      unsubscribe();
     });
   }
   return rep;
-  // }
 }
 

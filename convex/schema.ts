@@ -4,14 +4,16 @@ import { v } from 'convex/values';
 export default defineSchema({
   task: defineTable({
     localId: v.string(),
+    userId: v.optional(v.string()),
     // sender: v.string(),
-    task: v.string(),
+    taskText: v.string(),
     completed: v.boolean(),
     // ord: v.number(),
     deleted: v.boolean(),
     version: v.number(),
   })
     .index('by_local_id', ['localId'])
+    .index('by_user_id', ['userId', 'version'])
     .index('by_version', ['version']),
 
   replicacheClient: defineTable({

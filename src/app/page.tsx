@@ -3,23 +3,27 @@
 // import { useSubscribe } from 'replicache-react';
 // import { TaskType, listTodos, mutators } from '../replicache/mutators';
 import MainApp from './(main)/page';
-import { useEffect, useState } from 'react';
-import { Replicache } from 'replicache';
-import { M } from '../replicache/mutators';
+import { useEffect } from 'react';
 import { ConvexClient } from 'convex/browser';
 import { createReplicacheClient } from '@/replicache/replicacheConstructer';
+import { useStore } from '@/lib/repStore';
+import Cookies from 'js-cookie';
+import { nanoid } from 'nanoid';
+
 
 export default function Home() {
-  const [rep, setRep] = useState<Replicache<M> | null>(null);
+  const { rep, setRep } = useStore();
 
   useEffect(() => {
+      let userID = Cookies.get('userID');
+      if (!userID) {
+        userID = nanoid();
+        Cookies.set('userID', userID);
+      }
+      
     const convex = new ConvexClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
-    const rep = createReplicacheClient(convex);
-    setRep(rep);
-
-    return () => {
-      void rep.close();
-    };
+    const rep = createReplicacheClient(convex, userID);
+    setRep(rep, userID);
   }, []);
 
   if (!rep) {
@@ -28,8 +32,10 @@ export default function Home() {
 
   return (
     <main className="">
-      <MainApp rep={rep} />
+      <MainApp />
     </main>
   );
 }
+
+
 

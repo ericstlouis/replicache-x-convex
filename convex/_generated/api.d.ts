@@ -15,6 +15,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as constants from "../constants.js";
+import type * as pull from "../pull.js";
 import type * as push from "../push.js";
 
 /**
@@ -27,6 +28,7 @@ import type * as push from "../push.js";
  */
 declare const fullApi: ApiFromModules<{
   constants: typeof constants;
+  pull: typeof pull;
   push: typeof push;
 }>;
 export declare const api: FilterApi<

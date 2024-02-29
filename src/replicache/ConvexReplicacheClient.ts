@@ -8,6 +8,17 @@ import {
 import { ConvexClient } from 'convex/browser';
 import { api } from '../../convex/_generated/api';
 
+type PullRequestWithUserId = PullerResult & {
+  userId: string;
+};
+
+type QueryRequest = {
+  clientGroupID: string;
+  cookie: number | null;
+  userId: string;
+};
+
+
 export class ConvexReplicacheClient {
   constructor(private convex: ConvexClient) {}
 
@@ -23,35 +34,43 @@ export class ConvexReplicacheClient {
     return {
       httpRequestInfo: {
         httpStatusCode: 200,
-        errorMessage: 'push failed',
+        errorMessage: '',
       },
     };
   }
-
   async replicachePull(
     requestBody: PullRequestV1,
-    requestID: string
+    requestID: string,
+    userId: string
   ): Promise<PullerResult> {
-    console.log(this.convex, 'pull', requestBody, requestID);
+    // console.log(this.convex, 'pull', requestBody, requestID, userId);
     if (requestBody.cookie !== null && typeof requestBody.cookie !== 'number') {
       throw new Error(`Invalid cookie: ${requestBody.cookie}`);
     }
-    // const response = await this.convex.query(api.pull.default, {
-    //   clientGroupID: requestBody.clientGroupID,
-    //   cookie: requestBody.cookie,
-    // });
+
+    const response = await this.convex.query(api.pull.default, {
+      clientGroupID: requestBody.clientGroupID,
+      cookie: requestBody.cookie,
+      userId: userId,
+    } as QueryRequest);
     return {
       httpRequestInfo: {
         httpStatusCode: 200,
         errorMessage: '',
       },
-      //   response,
+      response,
     };
   }
-
-  //   subscribe(replicache: Replicache) {
-  //     return this.convex.onUpdate(api.pull.currentServerVersion, {}, () => {
-  //       replicache.pull();
-  //     });
-  //   }
+  subscribe(replicache: Replicache) {
+    return this.convex.onUpdate(api.pull.currentServerVersion, {}, () => {
+      replicache.pull();
+    });
+  }
 }
+
+
+
+
+
+
+

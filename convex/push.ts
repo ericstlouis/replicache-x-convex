@@ -71,6 +71,9 @@ async function applyMutation(
     case 'createTask':
       await createTask(ctx, mutation.args as TaskType, nextVersion);
       break;
+    case 'deleteTask':
+      await deleteTask(ctx, mutation.args as string);
+      break;
     default:
       throw new Error(`Unknown mutation: ${mutation.name}`);
   }
@@ -126,14 +129,28 @@ async function setLastMutationID(
 }
 
 async function createTask(ctx: MutationCtx, task: TaskType, version: number) {
+  console.log('task id: ', task);
   await ctx.db.insert('task', {
     localId: task.id,
+    userId: task.userId,
     // sender: task.from,
-    task: task.text,
+    taskText: task.taskText,
     completed: task.completed,
     // ord: task.,
     deleted: false,
     version,
   });
+}
+
+async function deleteTask(ctx: MutationCtx, task: string) {
+  console.log('task id: ', task);
+  const id = await ctx.db
+    .query('task')
+    .withIndex('by_local_id', (q) => q.eq('localId', task))
+    .unique();
+  if (!id) {
+    throw new Error(`Task ${task} not found`);
+  }
+  await ctx.db.delete(id._id);
 }
 

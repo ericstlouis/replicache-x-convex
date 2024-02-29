@@ -5,7 +5,8 @@ import {
 
 export interface TaskType {
   id: string;
-  text: string;
+  userId: string
+  taskText: string;
   completed: boolean;
 }
 
@@ -24,12 +25,13 @@ export type M = typeof mutators;
 
 
 export const mutators = {
-  deleteTodo: async (tx: WriteTransaction, id: string): Promise<void> => {
+  deleteTask: async (tx: WriteTransaction, id: string): Promise<void> => {
     await tx.del(id);
   },
   createTask: async (tx: WriteTransaction, task: TaskType): Promise<void> => {
-    const { id, text, completed } = task;
-    await tx.set(`task/${id}`, { text, completed });
+    console.log('task from the mutators: ', task);
+    const { id, taskText, completed } = task;
+    await tx.set(id, { taskText, completed });
   },
   updateTodo: async (tx: WriteTransaction, task: TodoUpdate): Promise<void> => {
     const { id } = task;
@@ -42,8 +44,15 @@ export const mutators = {
     }
 
     const updatedTask = { ...(existing || {}), ...(task || {}) };
-    await tx.set(updatedTask.id, { text: updatedTask.text, completed: updatedTask.completed});
+    await tx.set(updatedTask.id, {
+      taskText: updatedTask.taskText,
+      completed: updatedTask.completed,
+    });
   },
 };
+
+
+
+
 
 
