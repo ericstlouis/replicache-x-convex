@@ -2,6 +2,7 @@ import { Infer, v } from 'convex/values';
 import { MutationCtx, mutation } from './_generated/server';
 import { TaskType } from '@/replicache/mutators';
 import { defaultServerID } from './constants';
+import next from 'next';
 
 export const mutationValidator = v.object({
   clientID: v.string(),
@@ -72,7 +73,7 @@ async function applyMutation(
       await createTask(ctx, mutation.args as TaskType, nextVersion);
       break;
     case 'deleteTask':
-      await deleteTask(ctx, mutation.args as string);
+      await deleteTask(ctx, mutation.args as string, nextVersion);
       break;
     default:
       throw new Error(`Unknown mutation: ${mutation.name}`);
@@ -142,7 +143,7 @@ async function createTask(ctx: MutationCtx, task: TaskType, version: number) {
   });
 }
 
-async function deleteTask(ctx: MutationCtx, task: string) {
+async function deleteTask(ctx: MutationCtx, task: string, version: number) {
   console.log('task id: ', task);
   const id = await ctx.db
     .query('task')
@@ -151,8 +152,9 @@ async function deleteTask(ctx: MutationCtx, task: string) {
   if (!id) {
     throw new Error(`Task ${task} not found`);
   }
-  // await ctx.db.patch(id._id, { deleted: true });
+  await ctx.db.patch(id._id, { deleted: true, version },);
   //deleted on database but the client for some reason
-  await ctx.db.delete(id._id);
+  // await ctx.db.delete(id._id);
 }
+
 

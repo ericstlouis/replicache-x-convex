@@ -23,7 +23,6 @@ export default function MainApp() {
   };
 
   const listOfTasks = useSubscribe(rep, listTodos);
-  console.log(listOfTasks);
 
   // Transform the data into the structure we expect
   const transformedData: TaskType[] = listOfTasks
