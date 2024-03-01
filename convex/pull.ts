@@ -53,10 +53,10 @@ export default query({
     const changed = await ctx.db
       .query('task')
       .withIndex('by_version', (q) => q.gt('version', clientFromVersion))
-      // .filter((q) => q.eq(q.field('userId'), userId)) //has some bugs
+      .filter((q) => q.eq('userId', clientUserId))
       .collect()
 
-      console.log('changed(pull): ', changed.length);
+      console.log('changed(pull): ', changed);
 
       if (changed.length === 0) {
         console.log('changed is null');
@@ -83,7 +83,7 @@ export default query({
             op: 'del',
             key: id,
           });
-          console.log('not deleted');
+          console.log('Deleted');
         } else {
           patch.push({
             op: 'put',
@@ -96,10 +96,9 @@ export default query({
               deleted: deleted,
             },
           });
-          console.log('stop patching');
+          console.log('patched');
         }
     }
-    console.log("patch: ", patch)
     const body: PullResponse = {
       lastMutationIDChanges,
       cookie: currentVersion,
