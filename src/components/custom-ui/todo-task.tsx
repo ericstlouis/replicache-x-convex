@@ -40,7 +40,7 @@ const TodoTask = ({ task }: { task: TaskType }) => {
         {isEdting ? (
           <div className="flex w-full">
             <Input
-              className="line-through"
+              className=""
               value={CurrentTask.taskText}
               onChange={handleChange}
             />
