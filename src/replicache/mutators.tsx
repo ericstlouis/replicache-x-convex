@@ -1,11 +1,8 @@
-import {
-  WriteTransaction,
-  ReadTransaction,
-} from 'replicache';
+import { WriteTransaction, ReadTransaction } from 'replicache';
 
 export interface TaskType {
   id: string;
-  userId: string
+  userId: string;
   taskText: string;
   completed: boolean;
 }
@@ -23,17 +20,17 @@ export async function listTodos(tx: ReadTransaction) {
 
 export type M = typeof mutators;
 
-
 export const mutators = {
   deleteTask: async (tx: WriteTransaction, id: string): Promise<void> => {
     await tx.del(id);
   },
   createTask: async (tx: WriteTransaction, task: TaskType): Promise<void> => {
-    console.log('task from the mutators: ', task);
     const { id, userId, taskText, completed } = task;
     await tx.set(id, { taskText, userId, completed });
   },
-  updateTodo: async (tx: WriteTransaction, task: TodoUpdate): Promise<void> => {
+  updateTask: async (tx: WriteTransaction, task: TodoUpdate): Promise<void> => {
+    console.log('task from the mutators: ', task);
+
     const { id } = task;
     const existing = await tx.get(id);
     if (!existing) {
@@ -43,16 +40,12 @@ export const mutators = {
       throw new Error('Existing task or new task is not an object');
     }
 
-    const updatedTask = { ...(existing || {}), ...(task || {}) };
+    const updatedTask = { ...task };
     await tx.set(updatedTask.id, {
       taskText: updatedTask.taskText,
+      userId: updatedTask.userId,
       completed: updatedTask.completed,
     });
   },
 };
-
-
-
-
-
 

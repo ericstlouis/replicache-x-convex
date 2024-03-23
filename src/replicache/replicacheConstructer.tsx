@@ -19,7 +19,7 @@ export function createReplicacheClient(convex: ConvexClient, userId: string) {
     licenseKey: process.env.NEXT_PUBLIC_LICENSE_KEY as string,
     mutators,
     pusher: (body, id) => convexBridge.replicachePush(body as any, id),
-    puller: (body, id) => convexBridge.replicachePull(body as any, id, userId),
+    // puller: (body, id) => convexBridge.replicachePull(body as any, id, userId),
   });
   const unsubscribe = convexBridge.subscribe(rep);
   if (import.meta.hot) {

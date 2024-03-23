@@ -6,6 +6,8 @@ import { nanoid } from 'nanoid';
 import { useSubscribe } from 'replicache-react';
 import { M, TaskType, listTodos } from '@/replicache/mutators';
 import { useStore } from '@/lib/repStore';
+import { Separator } from '@/components/ui/separator';
+
 
 export default function MainApp() {
   // Get the Replicache instance from the context
@@ -43,12 +45,12 @@ export default function MainApp() {
   // Render the page
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-12">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <div className="flex justify-between">
+      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm">
+        <div className="flex justify-between space-x-7">
           <ModeToggle />
-          <h1 className="text-3xl">Reco</h1>
+          <h1 className="text-3xl">Replicache X Convex</h1>
         </div>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
+        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black">
           <a
             className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
             href="www.ericsl.dev"
@@ -58,15 +60,21 @@ export default function MainApp() {
             By <h1>Shinobi</h1>
           </a>
         </div>
-        {/* main Content */}
-        <div className="p-14">
-          <TodoInput handleText={handleText} />
-          {listOfTasks && <TodoTaskList tasks={transformedData || []} />}
-        </div>
+        {/* main section */}
+        <section className="flex items-center justify-center">
+          <div className="p-14 space-y-3 ">
+            <TodoInput handleText={handleText} />
+            {listOfTasks && <TodoTaskList tasks={transformedData || []} />}
+          </div>
+        </section>
       </div>
     </main>
   );
 }
+
+
+
+
 
 
 

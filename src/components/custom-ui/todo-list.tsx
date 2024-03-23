@@ -9,7 +9,7 @@ interface TodoTaskProps {
 
 export function TodoTaskList({ tasks }: TodoTaskProps) {
   return (
-    <ScrollArea className=" h-72 w-72 rounded-md border">
+    <ScrollArea className=" h-72 w-72 rounded-md border lg:w-96">
       <div className="p-4">
         <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
         {tasks.map((task) => (
