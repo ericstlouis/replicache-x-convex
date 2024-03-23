@@ -1,3 +1,16 @@
+# Replicache X Convex
+A simple todo App
+- local First
+- Realtime Sync with convex
+- Offline 
+
+Tech Stack:
+- NextjS
+- Replicache
+- Convex
+- TailwindCss
+- Shadcn
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
