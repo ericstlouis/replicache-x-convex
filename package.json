@@ -29,7 +29,6 @@
     "replicache-react": "^5.0.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "todo-reco": "link:",
     "zustand": "^4.5.1"
   },
   "devDependencies": {
