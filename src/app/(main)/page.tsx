@@ -4,9 +4,8 @@ import { TodoInput } from '@/components/custom-ui/todo-input';
 import { TodoTaskList } from '@/components/custom-ui/todo-list';
 import { nanoid } from 'nanoid';
 import { useSubscribe } from 'replicache-react';
-import { M, TaskType, listTodos } from '@/replicache/mutators';
+import { TaskType, listTodos } from '@/replicache/mutators';
 import { useStore } from '@/lib/repStore';
-import { Separator } from '@/components/ui/separator';
 
 
 export default function MainApp() {

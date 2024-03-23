@@ -24,6 +24,7 @@ export default function Home() {
     const convex = new ConvexClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
     const rep = createReplicacheClient(convex, userID);
     setRep(rep, userID);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!rep) {
