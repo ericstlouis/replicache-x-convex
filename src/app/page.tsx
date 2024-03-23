@@ -2,7 +2,7 @@
 // import { nanoid } from 'nanoid';
 // import { useSubscribe } from 'replicache-react';
 // import { TaskType, listTodos, mutators } from '../replicache/mutators';
-import MainApp from './(main)/page';
+import MainApp from './(main)/main/page';
 import { useEffect } from 'react';
 import { ConvexClient } from 'convex/browser';
 import { createReplicacheClient } from '@/replicache/replicacheConstructer';

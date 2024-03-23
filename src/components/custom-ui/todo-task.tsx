@@ -1,3 +1,4 @@
+'use client';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '../ui/input';
 import { TaskType, mutators } from '@/replicache/mutators';
@@ -29,7 +30,7 @@ const TodoTask = ({ task }: { task: TaskType }) => {
     taskData.completed = !taskData.completed;
     console.log('prevouis-Data', CurrentTask);
     console.log('updated-Data', taskData);
-    setUpdatedTask(taskData)
+    setUpdatedTask(taskData);
     rep?.mutate.updateTask(taskData);
   };
 
@@ -50,7 +51,9 @@ const TodoTask = ({ task }: { task: TaskType }) => {
         ) : (
           <div className="flex w-full">
             {task.completed ? (
-              <div className=" text-sm line-through w-full">{CurrentTask?.taskText}</div>
+              <div className=" text-sm line-through w-full">
+                {CurrentTask?.taskText}
+              </div>
             ) : (
               <div className="text-sm w-full ">{CurrentTask?.taskText}</div>
             )}

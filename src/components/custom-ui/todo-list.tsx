@@ -1,3 +1,4 @@
+'use client';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import TodoTask from './todo-task';
 import { TaskType } from '@/replicache/mutators';

@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { TaskType } from '@/replicache/mutators';
